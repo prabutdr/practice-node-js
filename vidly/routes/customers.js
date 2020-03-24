@@ -1,20 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const Joi = require('joi');
+const { Customer, validate } = require('../models/customer');
 
 const router = express.Router();
-
-const Customer = mongoose.model('Customer', new mongoose.Schema({
-  isGold: {
-    type: Boolean,
-    default: false },
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50 },
-  phone: String
-}));
 
 router.get('/', async (req, res) => {
   const customers = await Customer.find().sort('name');
@@ -30,7 +17,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { error } = validateCustomer(req.body);
+  const { error } = validate(req.body);
   if (error)
     return res.status(400).send(error.details[0].message);
   
@@ -44,7 +31,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const { error } = validateCustomer(req.body);
+  const { error } = validate(req.body);
   if (error) 
     return res.status(400).send(error.details[0].message);
 
@@ -62,14 +49,13 @@ router.put('/:id', async (req, res) => {
   return res.status(404).send('The customer with given id is not present');
 });
 
-function validateCustomer(customer) {
-  const schema = {
-    name: Joi.string().required().min(3).max(50),
-    phone: Joi.string(),
-    isGold: Joi.boolean()
-  };
+router.delete('/:id', async (req, res) => {
+  const customer = await Customer.findByIdAndRemove(req.params.id);
 
-  return Joi.validate(customer, schema);
-}
+  if (customer)
+    return res.send(customer);
+
+  return res.status(404).send('The customer with given id is not present');
+});
 
 module.exports = router;
