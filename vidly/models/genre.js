@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const router = express.Router();
 
 const Genre = mongoose.model('Genre', new mongoose.Schema({
   name: {

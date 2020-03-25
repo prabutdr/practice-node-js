@@ -55,3 +55,8 @@ getCourses_3().then(courses => courses.forEach(
     console.log("");
   }
 ));
+
+const id = new mongoose.Types.ObjectId();
+console.log(id);
+console.log(id.getTimestamp());
+console.log(mongoose.Types.ObjectId.isValid('1233'));

@@ -4,6 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const logger = require('./middleware/logger');
 const genres = require('./routes/genres');
+const movies = require('./routes/movies');
 const customers = require('./routes/customers');
 const home = require('./routes/index');
 const mongoose = require('mongoose');
@@ -32,6 +33,7 @@ app.use(express.static('public'));
 app.use('/', home);
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
+app.use('/api/movies', movies);
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));
