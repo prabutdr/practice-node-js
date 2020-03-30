@@ -7,8 +7,8 @@ let server;
 describe('auth middleware', () => {
   beforeEach(() => { server = require('../../index'); });
   afterEach(async () => { 
+    await server.close(); 
     await Genre.remove({});
-    server.close(); 
   });
 
   let token;

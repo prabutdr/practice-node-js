@@ -9,6 +9,7 @@ const home = require('../routes/index');
 const error = require('../middleware/error');
 const logger = require('../middleware/logger');
 const morgan = require('morgan');
+const returns = require('../routes/returns');
 const startupDebugger = require('debug')('app:startup');
 
 module.exports = function(app) {
@@ -23,6 +24,7 @@ module.exports = function(app) {
   app.use('/api/users', users);
   app.use('/api/auth', auth);
   app.use('/api/rentals', rentals);
+  app.use('/api/returns', returns);
   
   app.use(logger);
 
